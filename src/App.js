@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Header from './components/layout/header';
 import Todos from './components/Todos';
 
 class App extends Component {
@@ -12,7 +13,7 @@ class App extends Component {
       {
         id: 2,
         title: 'Dinner with friends',
-        completed: true
+        completed: false
       },
       {
         id: 3,
@@ -22,14 +23,26 @@ class App extends Component {
     ]
   }
 
+  // Toggle Complete
   markComplete = (id) => {
-    console.log('Hello from APP', id)
-}
+    this.setState({ todos: this.state.todos.map(todo => {
+      if(todo.id === id) {
+        todo.completed = !todo.completed
+      }
+      return todo;
+    })})
+  }
+
+  // Delete Todo
+  delTodo = (id) => {
+    this.setState({ todos: [...this.state.todos.filter(todo => todo.id !== id)]})
+  }
 
   render() {
     return (
       <div className="App">
-        <Todos todos={this.state.todos} markComplete={this.markComplete}/>
+        <Header />
+        <Todos todos={this.state.todos} markComplete={this.markComplete} delTodo={this.delTodo}/>
       </div>
     );
   }
